@@ -10,14 +10,16 @@
     body { font-family: 'Orbitron', monospace; }
     .glow { text-shadow: 0 0 10px #4ade80, 0 0 30px #4ade80, 0 0 60px #4ade80; }
     .card-glow { box-shadow: 0 0 40px rgba(74,222,128,0.15), inset 0 0 40px rgba(74,222,128,0.05); }
+    /* Scale with viewport width; never smaller than 1.8rem or larger than 4.5rem */
+    #time { font-size: clamp(1.8rem, 8vw, 4.5rem); }
   </style>
 </head>
 <body class="bg-gray-950 min-h-screen flex flex-col items-center justify-center p-4">
 
-  <div class="card-glow bg-gray-900 rounded-3xl p-10 md:p-16 text-center border border-green-500/30 max-w-xl w-full">
+  <div class="card-glow bg-gray-900 rounded-3xl p-6 md:p-12 text-center border border-green-500/30 max-w-xl w-full">
 
     <!-- Hours : Minutes : Seconds -->
-    <div id="time" class="glow text-green-400 text-6xl md:text-8xl font-black tracking-normal">
+    <div id="time" class="glow text-green-400 font-black">
       00:00:00
     </div>
 
