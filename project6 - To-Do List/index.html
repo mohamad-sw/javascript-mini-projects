@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-start justify-center p-4 pt-10">
+
+  <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-8 max-w-md w-full">
+
+    <!-- Header -->
+    <h1 class="text-3xl font-black text-gray-800 mb-1">My Tasks ✅</h1>
+    <p id="task-count" class="text-gray-400 text-sm mb-6">0 tasks remaining</p>
+
+    <!-- Add task -->
+    <div class="flex gap-2 mb-6">
+      <input
+        type="text"
+        id="task-input"
+        placeholder="Add a new task..."
+        onkeydown="if (event.key === 'Enter') addTask()"
+        class="flex-1 border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:border-blue-400 transition-colors"
+      >
+      <button
+        onclick="addTask()"
+        class="bg-blue-500 hover:bg-blue-600 text-white font-bold px-5 py-3 rounded-xl transition-all hover:scale-105 active:scale-95"
+      >
+        Add
+      </button>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="flex gap-2 mb-4">
+      <button onclick="setFilter('all')"       id="filter-all"       class="px-4 py-2 rounded-lg text-sm font-medium bg-blue-500 text-white">All</button>
+      <button onclick="setFilter('active')"    id="filter-active"    class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-500 hover:bg-gray-200">Active</button>
+      <button onclick="setFilter('completed')" id="filter-completed" class="px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-500 hover:bg-gray-200">Completed</button>
+    </div>
+
+    <!-- Task list -->
+    <ul id="task-list" class="space-y-2 min-h-16"></ul>
+
+    <!-- Clear completed -->
+    <button
+      onclick="clearCompleted()"
+      class="mt-4 text-sm text-gray-400 hover:text-red-400 transition-colors"
+    >
+      Clear completed tasks
+    </button>
+
+  </div>
+
+  <script>
+    // Load tasks saved in the browser (survives page refresh)
+    let tasks         = JSON.parse(localStorage.getItem('tasks') || '[]');
+    let currentFilter = 'all';
+
+    function saveTasks() {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    // ── Add ───────────────────────────────────────────────────
+    function addTask() {
+      const input = document.getElementById('task-input');
+      const text  = input.value.trim();
+      if (!text) return;
+
+      tasks.push({ id: Date.now(), text, completed: false });
+      input.value = '';
+      saveTasks();
+      renderTasks();
+    }
+
+    // ── Toggle complete ───────────────────────────────────────
+    function toggleTask(id) {
+      const task = tasks.find(t => t.id === id);
+      if (task) task.completed = !task.completed;
+      saveTasks();
+      renderTasks();
+    }
+
+    // ── Delete ────────────────────────────────────────────────
+    function deleteTask(id) {
+      tasks = tasks.filter(t => t.id !== id);
+      saveTasks();
+      renderTasks();
+    }
+
+    // ── Clear all completed ───────────────────────────────────
+    function clearCompleted() {
+      tasks = tasks.filter(t => !t.completed);
+      saveTasks();
+      renderTasks();
+    }
+
+    // ── Switch filter tab ─────────────────────────────────────
+    function setFilter(filter) {
+      currentFilter = filter;
+
+      // Reset all tabs to grey
+      ['all','active','completed'].forEach(f => {
+        document.getElementById('filter-' + f).className =
+          'px-4 py-2 rounded-lg text-sm font-medium bg-gray-100 text-gray-500 hover:bg-gray-200';
+      });
+      // Highlight the active tab
+      document.getElementById('filter-' + filter).className =
+        'px-4 py-2 rounded-lg text-sm font-medium bg-blue-500 text-white';
+
+      renderTasks();
+    }
+
+    // ── Render ────────────────────────────────────────────────
+    function renderTasks() {
+      // Filter based on the selected tab
+      const visible = tasks.filter(task => {
+        if (currentFilter === 'active')    return !task.completed;
+        if (currentFilter === 'completed') return  task.completed;
+        return true;
+      });
+
+      const list = document.getElementById('task-list');
+
+      if (visible.length === 0) {
+        list.innerHTML = '<li class="text-gray-400 text-center py-8 text-sm">Nothing here! 🎉</li>';
+      } else {
+        // Build the HTML for every task
+        list.innerHTML = visible.map(task => `
+          <li class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 group transition-colors">
+
+            <input
+              type="checkbox"
+              ${task.completed ? 'checked' : ''}
+              onchange="toggleTask(${task.id})"
+              class="w-5 h-5 accent-blue-500 cursor-pointer flex-shrink-0"
+            >
+
+            <span class="flex-1 text-gray-700 break-words ${task.completed ? 'line-through text-gray-400' : ''}">
+              ${task.text}
+            </span>
+
+            <button
+              onclick="deleteTask(${task.id})"
+              class="text-gray-300 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all flex-shrink-0 text-xl leading-none"
+            >×</button>
+
+          </li>
+        `).join('');
+      }
+
+      // Update the "X tasks remaining" counter
+      const remaining = tasks.filter(t => !t.completed).length;
+      document.getElementById('task-count').textContent =
+        remaining === 1 ? '1 task remaining' : `${remaining} tasks remaining`;
+    }
+
+    // First render on page load
+    renderTasks();
+  </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Clock</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Orbitron', monospace; }
+    .glow { text-shadow: 0 0 10px #4ade80, 0 0 30px #4ade80, 0 0 60px #4ade80; }
+    .card-glow { box-shadow: 0 0 40px rgba(74,222,128,0.15), inset 0 0 40px rgba(74,222,128,0.05); }
+  </style>
+</head>
+<body class="bg-gray-950 min-h-screen flex flex-col items-center justify-center p-4">
+
+  <div class="card-glow bg-gray-900 rounded-3xl p-10 md:p-16 text-center border border-green-500/30 max-w-xl w-full">
+
+    <!-- Hours : Minutes : Seconds -->
+    <div id="time" class="glow text-green-400 text-7xl md:text-9xl font-black tracking-widest">
+      00:00:00
+    </div>
+
+    <!-- AM / PM -->
+    <div id="ampm" class="text-green-300 text-3xl mt-3 tracking-widest">AM</div>
+
+    <div class="border-t border-green-500/20 my-8"></div>
+
+    <!-- Day of the week -->
+    <div id="day" class="text-gray-300 text-2xl tracking-widest mb-2">MONDAY</div>
+
+    <!-- Full date -->
+    <div id="date" class="text-gray-500 text-lg tracking-wide">January 1, 2024</div>
+
+  </div>
+
+  <script>
+    // Names we need for formatting
+    const DAYS   = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+    const MONTHS = ['January','February','March','April','May','June',
+                    'July','August','September','October','November','December'];
+
+    function updateClock() {
+      const now = new Date();
+
+      // ── Time ──────────────────────────────────────────────
+      let hours   = now.getHours();
+      const mins  = now.getMinutes();
+      const secs  = now.getSeconds();
+      const ampm  = hours >= 12 ? 'PM' : 'AM';
+
+      // Convert 24-hour → 12-hour  (0 becomes 12)
+      hours = hours % 12 || 12;
+
+      // padStart adds a leading zero:  9 → "09"
+      const display =
+        String(hours).padStart(2, '0') + ':' +
+        String(mins).padStart(2, '0')  + ':' +
+        String(secs).padStart(2, '0');
+
+      document.getElementById('time').textContent = display;
+      document.getElementById('ampm').textContent = ampm;
+
+      // ── Date ──────────────────────────────────────────────
+      document.getElementById('day').textContent  = DAYS[now.getDay()];
+      document.getElementById('date').textContent =
+        MONTHS[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+    }
+
+    // Run once right away, then repeat every 1 000 ms (1 second)
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>

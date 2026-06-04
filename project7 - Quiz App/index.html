@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-violet-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
+
+  <!-- ── START SCREEN ──────────────────────────────────────── -->
+  <div id="start-screen" class="text-center">
+    <div class="text-8xl mb-6">🧠</div>
+    <h1 class="text-white text-5xl font-black mb-3">Knowledge Quiz</h1>
+    <p class="text-purple-200 text-lg mb-10 max-w-sm mx-auto">
+      8 questions on tech, science, and general knowledge. How many can you get right?
+    </p>
+    <button
+      onclick="startQuiz()"
+      class="bg-white text-purple-900 font-black text-xl px-12 py-5 rounded-2xl hover:bg-purple-100 transition-all hover:scale-105 active:scale-95 shadow-2xl"
+    >
+      Start Quiz →
+    </button>
+  </div>
+
+  <!-- ── QUIZ SCREEN ───────────────────────────────────────── -->
+  <div id="quiz-screen" class="hidden max-w-lg w-full">
+
+    <!-- Progress bar + counters -->
+    <div class="mb-6">
+      <div class="flex justify-between text-purple-200 text-sm mb-2">
+        <span id="question-number">Question 1 of 8</span>
+        <span id="score-display">Score: 0</span>
+      </div>
+      <div class="bg-white/20 rounded-full h-2 overflow-hidden">
+        <div id="progress-bar" class="bg-white h-full rounded-full transition-all duration-500" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Question card -->
+    <div class="bg-white/10 backdrop-blur rounded-3xl p-8 border border-white/20 shadow-2xl">
+      <p id="question-text" class="text-white text-xl font-semibold mb-6 leading-relaxed"></p>
+
+      <!-- Answer options injected here -->
+      <div id="options-container" class="space-y-3"></div>
+
+      <!-- Next button (hidden until player answers) -->
+      <button
+        id="next-btn"
+        onclick="nextQuestion()"
+        class="hidden w-full mt-6 bg-white text-purple-900 font-bold py-4 rounded-xl hover:bg-purple-100 transition-all hover:scale-105 active:scale-95"
+      >
+        Next Question →
+      </button>
+    </div>
+  </div>
+
+  <!-- ── RESULT SCREEN ─────────────────────────────────────── -->
+  <div id="result-screen" class="hidden text-center max-w-md w-full">
+    <div id="result-emoji" class="text-8xl mb-4">🎉</div>
+    <h2 class="text-white text-4xl font-black mb-2">Quiz Complete!</h2>
+    <p id="result-score"   class="text-purple-200 text-xl mb-2"></p>
+    <p id="result-message" class="text-purple-300 text-lg mb-8"></p>
+
+    <div class="bg-white/10 rounded-2xl p-6 mb-8 border border-white/20">
+      <div class="flex justify-around">
+        <div>
+          <div id="correct-count" class="text-white text-5xl font-black">0</div>
+          <div class="text-green-300 text-sm mt-1">Correct</div>
+        </div>
+        <div>
+          <div id="wrong-count" class="text-white text-5xl font-black">0</div>
+          <div class="text-red-300 text-sm mt-1">Wrong</div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      onclick="restartQuiz()"
+      class="bg-white text-purple-900 font-black text-xl px-10 py-5 rounded-2xl hover:bg-purple-100 transition-all hover:scale-105"
+    >
+      Play Again 🔄
+    </button>
+  </div>
+
+  <script>
+    // ── Question bank ─────────────────────────────────────────
+    const questions = [
+      {
+        question: 'What does HTML stand for?',
+        options: ['HyperText Markup Language', 'High Tech Modern Language', 'Home Tool Markup Language', 'HyperText Machine Links'],
+        answer: 0,
+      },
+      {
+        question: 'Which planet is closest to the Sun?',
+        options: ['Venus', 'Mars', 'Mercury', 'Earth'],
+        answer: 2,
+      },
+      {
+        question: 'What is 2 to the power of 10?',
+        options: ['512', '1024', '2048', '256'],
+        answer: 1,
+      },
+      {
+        question: 'Who invented the telephone?',
+        options: ['Thomas Edison', 'Nikola Tesla', 'Alexander Graham Bell', 'Albert Einstein'],
+        answer: 2,
+      },
+      {
+        question: 'What do computers understand at the lowest level?',
+        options: ['Python', 'Binary (0s and 1s)', 'JavaScript', 'Assembly'],
+        answer: 1,
+      },
+      {
+        question: 'What is the capital of Japan?',
+        options: ['Beijing', 'Seoul', 'Bangkok', 'Tokyo'],
+        answer: 3,
+      },
+      {
+        question: 'What does CSS stand for?',
+        options: ['Computer Style Sheets', 'Cascading Style Sheets', 'Creative Style System', 'Colorful Script Sheets'],
+        answer: 1,
+      },
+      {
+        question: 'How many bytes are in one kilobyte (KB)?',
+        options: ['100', '512', '1024', '2048'],
+        answer: 2,
+      },
+    ];
+
+    // ── State ─────────────────────────────────────────────────
+    let currentQuestion = 0;
+    let score           = 0;
+    let answered        = false; // prevent double-clicking an option
+
+    // ── Functions ─────────────────────────────────────────────
+    function startQuiz() {
+      document.getElementById('start-screen').classList.add('hidden');
+      document.getElementById('quiz-screen').classList.remove('hidden');
+      showQuestion();
+    }
+
+    function showQuestion() {
+      answered = false;
+      const q  = questions[currentQuestion];
+
+      document.getElementById('question-number').textContent =
+        `Question ${currentQuestion + 1} of ${questions.length}`;
+      document.getElementById('score-display').textContent = `Score: ${score}`;
+      document.getElementById('progress-bar').style.width  =
+        `${(currentQuestion / questions.length) * 100}%`;
+
+      document.getElementById('question-text').textContent = q.question;
+      document.getElementById('next-btn').classList.add('hidden');
+
+      // Render the four options
+      const LABELS = ['A', 'B', 'C', 'D'];
+      document.getElementById('options-container').innerHTML =
+        q.options.map((option, i) => `
+          <button
+            onclick="selectAnswer(${i})"
+            class="option-btn w-full text-left px-5 py-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/40 text-white transition-all font-medium"
+          >
+            <span class="text-purple-300 font-bold mr-3">${LABELS[i]}.</span>${option}
+          </button>
+        `).join('');
+    }
+
+    function selectAnswer(selected) {
+      if (answered) return; // ignore extra clicks
+      answered = true;
+
+      const correct = questions[currentQuestion].answer;
+      const buttons = document.querySelectorAll('.option-btn');
+
+      // Always reveal the correct answer in green
+      buttons[correct].className =
+        'option-btn w-full text-left px-5 py-4 rounded-xl bg-green-500/40 border border-green-400 text-white font-medium';
+
+      if (selected === correct) {
+        score++;
+        document.getElementById('score-display').textContent = `Score: ${score}`;
+      } else {
+        // Highlight the player's wrong choice in red
+        buttons[selected].className =
+          'option-btn w-full text-left px-5 py-4 rounded-xl bg-red-500/40 border border-red-400 text-white font-medium';
+      }
+
+      const nextBtn = document.getElementById('next-btn');
+      nextBtn.classList.remove('hidden');
+      nextBtn.textContent =
+        currentQuestion === questions.length - 1 ? 'See Results 🏆' : 'Next Question →';
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      document.getElementById('quiz-screen').classList.add('hidden');
+      document.getElementById('result-screen').classList.remove('hidden');
+
+      const pct = Math.round((score / questions.length) * 100);
+      document.getElementById('result-score').textContent =
+        `You scored ${score} out of ${questions.length} (${pct}%)`;
+      document.getElementById('correct-count').textContent = score;
+      document.getElementById('wrong-count').textContent   = questions.length - score;
+
+      let emoji, message;
+      if (pct === 100)     { emoji = '🏆'; message = 'Perfect score! Absolutely brilliant!'; }
+      else if (pct >= 75)  { emoji = '🎉'; message = 'Great job! You really know your stuff!'; }
+      else if (pct >= 50)  { emoji = '👍'; message = 'Not bad! Keep learning and try again!'; }
+      else                 { emoji = '📚'; message = "Keep studying — you'll do better next time!"; }
+
+      document.getElementById('result-emoji').textContent   = emoji;
+      document.getElementById('result-message').textContent = message;
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      score           = 0;
+      document.getElementById('result-screen').classList.add('hidden');
+      document.getElementById('quiz-screen').classList.remove('hidden');
+      document.getElementById('progress-bar').style.width = '0%';
+      showQuestion();
+    }
+  </script>
+</body>
+</html>

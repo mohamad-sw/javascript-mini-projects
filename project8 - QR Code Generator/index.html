@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- External library that draws QR codes onto a canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-teal-900 via-cyan-900 to-emerald-900 flex items-center justify-center p-4">
+
+  <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full">
+
+    <!-- Header -->
+    <h1 class="text-gray-800 text-2xl font-bold text-center mb-1">QR Code Generator 📷</h1>
+    <p class="text-gray-500 text-center text-sm mb-8">Turn any text or URL into a scannable QR code!</p>
+
+    <!-- Input text / URL -->
+    <textarea
+      id="qr-input"
+      placeholder="Enter text or a website URL..."
+      rows="3"
+      class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:border-teal-400 resize-none mb-4 transition-colors"
+    ></textarea>
+
+    <!-- Size selector -->
+    <div class="flex items-center gap-4 mb-6">
+      <label class="text-gray-600 text-sm font-medium flex-shrink-0">QR Size:</label>
+      <select
+        id="qr-size"
+        class="border-2 border-gray-200 rounded-xl px-4 py-2 text-gray-700 focus:outline-none focus:border-teal-400 flex-1"
+      >
+        <option value="150">Small  (150 px)</option>
+        <option value="200" selected>Medium (200 px)</option>
+        <option value="280">Large  (280 px)</option>
+      </select>
+    </div>
+
+    <!-- Generate button -->
+    <button
+      onclick="generateQR()"
+      class="w-full bg-teal-500 hover:bg-teal-400 text-white font-bold text-lg py-4 rounded-xl transition-all hover:scale-105 active:scale-95 shadow-lg shadow-teal-500/30 mb-6"
+    >
+      Generate QR Code
+    </button>
+
+    <!-- QR code output (hidden until generated) -->
+    <div id="qr-container" class="hidden">
+      <div class="border-t border-gray-200 pt-6">
+
+        <!-- The library will insert a <canvas> or <img> inside this div -->
+        <div id="qr-code" class="flex justify-center mb-6"></div>
+
+        <!-- Download button -->
+        <button
+          onclick="downloadQR()"
+          class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 rounded-xl transition-all hover:scale-105 active:scale-95"
+        >
+          ⬇️ Download QR Code
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function generateQR() {
+      const text = document.getElementById('qr-input').value.trim();
+
+      if (!text) {
+        alert('Please enter some text or a URL first!');
+        return;
+      }
+
+      const size = parseInt(document.getElementById('qr-size').value);
+
+      // Clear any previously generated QR code
+      const qrDiv = document.getElementById('qr-code');
+      qrDiv.innerHTML = '';
+
+      // QRCode() from the qrcode.js library does all the hard work:
+      // it analyses the text and draws a QR pattern on a <canvas>
+      new QRCode(qrDiv, {
+        text:           text,
+        width:          size,
+        height:         size,
+        colorDark:      '#1a1a2e',   // dark module color
+        colorLight:     '#ffffff',   // light module color
+        correctLevel:   QRCode.CorrectLevel.H,  // H = highest error correction
+      });
+
+      document.getElementById('qr-container').classList.remove('hidden');
+    }
+
+    function downloadQR() {
+      // qrcode.js creates either a <canvas> or an <img> depending on the browser
+      const canvas = document.querySelector('#qr-code canvas');
+      const img    = document.querySelector('#qr-code img');
+
+      let dataUrl;
+      if (canvas) {
+        dataUrl = canvas.toDataURL('image/png');
+      } else if (img) {
+        dataUrl = img.src;
+      } else {
+        alert('Generate a QR code first!');
+        return;
+      }
+
+      // Trigger a download by creating a temporary <a> and clicking it
+      const link      = document.createElement('a');
+      link.href       = dataUrl;
+      link.download   = 'qrcode.png';
+      link.click();
+    }
+  </script>
+</body>
+</html>

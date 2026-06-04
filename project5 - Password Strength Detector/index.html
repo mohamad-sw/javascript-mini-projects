@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Password Strength Detector</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 to-gray-900 flex items-center justify-center p-4">
+
+  <div class="bg-gray-800 rounded-3xl p-8 max-w-md w-full border border-gray-700 shadow-2xl">
+
+    <h1 class="text-white text-2xl font-bold text-center mb-1">🔒 Password Checker</h1>
+    <p class="text-gray-400 text-center text-sm mb-8">Type a password to test its strength</p>
+
+    <!-- Password input with show/hide toggle -->
+    <div class="relative mb-4">
+      <input
+        type="password"
+        id="password-input"
+        placeholder="Type a password..."
+        oninput="checkStrength(this.value)"
+        class="w-full bg-gray-700 border border-gray-600 rounded-xl px-4 py-4 text-white text-lg focus:outline-none focus:border-blue-500 pr-14"
+      >
+      <button
+        onclick="toggleVisibility()"
+        id="toggle-btn"
+        class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xl"
+      >👁️</button>
+    </div>
+
+    <!-- Strength bar -->
+    <div class="bg-gray-700 rounded-full h-3 mb-2 overflow-hidden">
+      <div
+        id="strength-bar"
+        class="h-full rounded-full transition-all duration-500"
+        style="width: 0%"
+      ></div>
+    </div>
+
+    <!-- Strength label -->
+    <div class="flex justify-between items-center mb-8">
+      <span class="text-gray-400 text-sm">Strength:</span>
+      <span id="strength-label" class="font-bold text-sm text-gray-500">—</span>
+    </div>
+
+    <!-- Criteria checklist -->
+    <div class="space-y-3">
+      <p class="text-gray-400 text-xs uppercase tracking-wider font-medium mb-2">Requirements</p>
+      <div id="check-length" class="text-gray-500 text-sm">❌  At least 8 characters</div>
+      <div id="check-upper"  class="text-gray-500 text-sm">❌  One uppercase letter (A–Z)</div>
+      <div id="check-lower"  class="text-gray-500 text-sm">❌  One lowercase letter (a–z)</div>
+      <div id="check-number" class="text-gray-500 text-sm">❌  One number (0–9)</div>
+      <div id="check-symbol" class="text-gray-500 text-sm">❌  One symbol (!@#$…)</div>
+    </div>
+
+  </div>
+
+  <script>
+    // Each level: how wide the bar is, its color, and the label text
+    const LEVELS = [
+      { width: '0%',    bar: '',                label: '—',           labelClass: 'text-gray-500' },
+      { width: '20%',   bar: 'bg-red-500',      label: 'Very Weak',   labelClass: 'text-red-400' },
+      { width: '40%',   bar: 'bg-orange-500',   label: 'Weak',        labelClass: 'text-orange-400' },
+      { width: '60%',   bar: 'bg-yellow-400',   label: 'Fair',        labelClass: 'text-yellow-400' },
+      { width: '80%',   bar: 'bg-blue-500',     label: 'Strong',      labelClass: 'text-blue-400' },
+      { width: '100%',  bar: 'bg-green-500',    label: 'Very Strong', labelClass: 'text-green-400' },
+    ];
+
+    function checkStrength(password) {
+      // Test each requirement
+      const checks = {
+        length:  password.length >= 8,
+        upper:   /[A-Z]/.test(password),     // at least one uppercase
+        lower:   /[a-z]/.test(password),     // at least one lowercase
+        number:  /[0-9]/.test(password),     // at least one digit
+        symbol:  /[^A-Za-z0-9]/.test(password), // any non-alphanumeric char
+      };
+
+      // Update the visual checkmarks
+      setCriteria('check-length', checks.length, 'At least 8 characters');
+      setCriteria('check-upper',  checks.upper,  'One uppercase letter (A–Z)');
+      setCriteria('check-lower',  checks.lower,  'One lowercase letter (a–z)');
+      setCriteria('check-number', checks.number, 'One number (0–9)');
+      setCriteria('check-symbol', checks.symbol, 'One symbol (!@#$…)');
+
+      // Score = number of checks that pass (0–5)
+      const score = Object.values(checks).filter(Boolean).length;
+
+      // Pick the level (empty password → level 0)
+      const level = password.length === 0 ? LEVELS[0] : LEVELS[score];
+
+      const bar   = document.getElementById('strength-bar');
+      const label = document.getElementById('strength-label');
+
+      bar.style.width  = level.width;
+      bar.className    = `h-full rounded-full transition-all duration-500 ${level.bar}`;
+      label.textContent = level.label;
+      label.className   = `font-bold text-sm ${level.labelClass}`;
+    }
+
+    function setCriteria(id, passed, text) {
+      const el = document.getElementById(id);
+      el.textContent = (passed ? '✅' : '❌') + '  ' + text;
+      el.className   = 'text-sm ' + (passed ? 'text-green-400' : 'text-gray-500');
+    }
+
+    function toggleVisibility() {
+      const input = document.getElementById('password-input');
+      const btn   = document.getElementById('toggle-btn');
+      if (input.type === 'password') {
+        input.type    = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type    = 'password';
+        btn.textContent = '👁️';
+      }
+    }
+  </script>
+</body>
+</html>
