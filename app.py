@@ -80,7 +80,7 @@ base = Path(__file__).parent
 
 for folder, title, description, height in PROJECTS:
     st.subheader(title)
-    st.write(description)
+    st.markdown(f"<p style='font-size:18px'>{description}</p>", unsafe_allow_html=True)
     html = (base / folder / "index.html").read_text(encoding="utf-8")
     components.html(html, height=height, scrolling=False)
     st.divider()
