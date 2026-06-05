@@ -5,7 +5,7 @@ from pathlib import Path
 st.set_page_config(page_title="TUMO Workshop Projects", layout="wide")
 
 st.title("TUMO Workshop — 8 Mini Projects")
-st.markdown("Each project below is a self-contained HTML app. Interact with them directly!")
+st.markdown("As it is a live demo, you can interact with these applications right here")
 st.divider()
 
 # (folder name, display title, iframe height in px)

@@ -1,0 +1,363 @@
+================================================================================
+  TUMO WORKSHOP — PROJECT REPORT
+  8 Sessions × 2 Hours | Students aged 12–18
+  Stack: HTML · Tailwind CSS (CDN) · Vanilla JavaScript
+================================================================================
+
+
+────────────────────────────────────────────────────────────────────────────────
+SESSION 1 — Digital Clock
+Folder: project1 - Digital Clock
+Difficulty: ★☆☆☆☆  (Beginner)
+────────────────────────────────────────────────────────────────────────────────
+
+  A live digital clock that reads the current time from the browser and
+  updates every second. It displays hours, minutes, seconds, AM/PM, the
+  day of the week, and the full date — all styled with a neon green glow
+  on a dark background using the Orbitron display font from Google Fonts.
+
+WHAT IT DOES
+  Displays a live digital clock that updates every second, showing hours,
+  minutes, seconds, AM/PM indicator, day of the week, and the full date.
+  The design uses a dark background with a neon green glow effect using
+  the Orbitron font (loaded from Google Fonts).
+
+TECH STACK
+  - HTML5 — structure and layout
+  - Tailwind CSS — dark theme, responsive card, glow effects via custom CSS
+  - Google Fonts — Orbitron display font for the clock digits
+  - Vanilla JavaScript — Date object, setInterval, DOM manipulation
+
+WHAT STUDENTS LEARN
+  - How the JavaScript Date object works (getHours, getMinutes, etc.)
+  - Using setInterval to run a function repeatedly on a timer
+  - Converting 24-hour time to 12-hour format with AM/PM logic
+  - padStart() to add a leading zero (e.g. 9 → "09")
+  - Updating the DOM by setting .textContent on elements
+  - Using arrays to map numbers to day/month names
+  - CSS clamp() for fluid, responsive font sizing
+
+EXERCISE — Additional Feature
+  Add an analog clock face alongside the digital display.
+  Draw the clock hands (hour, minute, second) on an HTML <canvas> element
+  using trigonometry (Math.sin / Math.cos) to calculate hand positions,
+  and rotate them each second inside the same setInterval callback.
+
+
+────────────────────────────────────────────────────────────────────────────────
+SESSION 2 — Age Calculator
+Folder: project2 - Age Calculator
+Difficulty: ★★☆☆☆  (Easy)
+────────────────────────────────────────────────────────────────────────────────
+
+  A birthday-to-age converter that takes a date input and instantly
+  calculates the user's exact age in years, months, and days. It also
+  shows a fun fact displaying the total number of days the user has been
+  alive, presented on a purple gradient card with a clean glass-effect design.
+
+WHAT IT DOES
+  The user picks their birthday from a date picker. On clicking the button,
+  the app calculates and displays the exact age broken into years, months,
+  and remaining days. It also shows a fun fact: the total number of days
+  the user has been alive.
+
+TECH STACK
+  - HTML5 — date input element, card layout
+  - Tailwind CSS — purple/indigo gradient, glass-effect card
+  - Vanilla JavaScript — Date arithmetic, input validation
+
+WHAT STUDENTS LEARN
+  - Reading values from HTML form inputs (input type="date")
+  - Creating Date objects and subtracting them from each other
+  - Handling edge cases: negative day/month values when doing date math
+  - Input validation (empty input, future date check)
+  - Displaying dynamic results by toggling a hidden section
+  - Using toLocaleString() to format large numbers with commas
+  - The difference between calendar age and elapsed milliseconds
+
+EXERCISE — Additional Feature
+  Add a "Next Birthday Countdown" section below the result.
+  Calculate how many days remain until the user's next birthday and
+  display it as "Your next birthday is in X days!" — handle the edge
+  case where today IS the birthday and show a celebration message.
+
+
+────────────────────────────────────────────────────────────────────────────────
+SESSION 3 — Rock Paper Scissors
+Folder: project3 - Rock Paper Scissors
+Difficulty: ★★☆☆☆  (Easy)
+────────────────────────────────────────────────────────────────────────────────
+
+  A fully playable Rock Paper Scissors game against the computer. The player
+  taps one of three large emoji buttons, the computer makes a random choice,
+  and the winner is announced immediately with both selections shown side by
+  side. A scoreboard keeps track of wins and losses across multiple rounds
+  until the player resets the game.
+
+WHAT IT DOES
+  A classic Rock Paper Scissors game against the computer. The player
+  clicks one of three emoji buttons, the computer picks randomly, and
+  the result (Win / Lose / Tie) is shown instantly with both choices
+  side by side. The scoreboard tracks wins and losses across rounds
+  until the player resets.
+
+TECH STACK
+  - HTML5 — button layout, score display
+  - Tailwind CSS — orange/red gradient, responsive button sizing
+  - Vanilla JavaScript — Math.random, game logic, score state
+
+WHAT STUDENTS LEARN
+  - Using Math.random() to simulate a random computer choice
+  - Storing game logic in a lookup object (BEATS map)
+  - Writing conditional logic (if / else if / else) for win conditions
+  - Managing simple state with variables (playerScore, computerScore)
+  - Showing and hiding DOM elements with classList (hidden class)
+  - Responsive design: different sizes for mobile vs desktop (md: prefix)
+  - The concept of "pure functions" — same inputs always give same outputs
+
+EXERCISE — Additional Feature
+  Add a "Best of 5" game mode. Track how many rounds have been played
+  and declare an overall winner once either the player or the computer
+  reaches 3 wins. Show a modal or banner announcing the final winner
+  and offer a "Play Again" button to restart the series.
+
+
+────────────────────────────────────────────────────────────────────────────────
+SESSION 4 — Password Generator
+Folder: project4 - Password Generator
+Difficulty: ★★★☆☆  (Intermediate)
+────────────────────────────────────────────────────────────────────────────────
+
+  A security tool that generates a random password based on the user's
+  preferences. The user sets a length between 6 and 32 characters using a
+  slider, then ticks which character types to include — uppercase, lowercase,
+  numbers, and symbols. The generated password can be copied to the clipboard
+  with a single click, and the button briefly shows a checkmark to confirm
+  the copy was successful.
+
+WHAT IT DOES
+  Generates a random password based on user-selected options. The user
+  can set the desired length (6–32 characters) via a slider and choose
+  which character types to include: uppercase letters, lowercase letters,
+  numbers, and/or symbols. A copy-to-clipboard button lets the user grab
+  the result with one click, and the button shows a checkmark to confirm.
+
+TECH STACK
+  - HTML5 — range input (slider), checkboxes, code element
+  - Tailwind CSS — dark navy security theme
+  - Vanilla JavaScript — string concatenation, loops, Math.random,
+                         navigator.clipboard API, setTimeout
+
+WHAT STUDENTS LEARN
+  - Building a character pool string dynamically based on conditions
+  - Using a for loop with Math.random to pick random characters
+  - Reading multiple input types: range sliders and checkboxes
+  - The Clipboard API (navigator.clipboard.writeText)
+  - Using setTimeout to give temporary feedback ("✅" → "📋")
+  - Why randomness matters in security (brief discussion point)
+  - String indexing with bracket notation (str[index])
+
+EXERCISE — Additional Feature
+  Add a password strength indicator directly inside the generator.
+  After each new password is generated, analyse it using the same
+  regex rules as the Password Strength Detector (project 5) and
+  display a colour-coded label (Weak / Fair / Strong / Very Strong)
+  beneath the password output — so the user knows immediately how
+  secure their generated password is.
+
+
+────────────────────────────────────────────────────────────────────────────────
+SESSION 5 — Password Strength Detector
+Folder: project5 - Password Strength Detector
+Difficulty: ★★★☆☆  (Intermediate)
+────────────────────────────────────────────────────────────────────────────────
+
+  A real-time password analyser that evaluates a password as the user types.
+  It checks five requirements — minimum length, uppercase letter, lowercase
+  letter, number, and special symbol — and reflects each check instantly in
+  a colour-coded checklist. A strength bar animates from red to green as more
+  requirements are met, and a show/hide toggle lets the user reveal their input.
+
+WHAT IT DOES
+  As the user types into the password field, the app analyses the password
+  in real time and displays a colour-coded strength bar (Very Weak → Very
+  Strong), a strength label, and a live checklist showing which of five
+  requirements have been met: minimum length, uppercase letter, lowercase
+  letter, number, and special symbol. A show/hide toggle lets the user
+  reveal what they have typed.
+
+TECH STACK
+  - HTML5 — password input, live event listener
+  - Tailwind CSS — dark slate theme, animated progress bar
+  - Vanilla JavaScript — Regular Expressions (regex), oninput event,
+                         dynamic class manipulation
+
+WHAT STUDENTS LEARN
+  - The oninput event and why it fires on every keystroke
+  - Introduction to Regular Expressions: /[A-Z]/, /[0-9]/, /[^A-Za-z0-9]/
+  - The .test() method to check if a pattern exists in a string
+  - Counting "passed" checks with Object.values() and .filter()
+  - Mapping a numeric score to a visual level (array of level objects)
+  - Dynamically swapping CSS classes to change colours (className)
+  - Toggling input type between "password" and "text" for show/hide
+
+EXERCISE — Additional Feature
+  Add a "Common Password" warning. Create an array of the 10 most
+  commonly used passwords (e.g. "123456", "password", "qwerty").
+  After each keystroke, check if the current input matches any entry
+  in the list and, if so, display a red warning banner saying
+  "⚠️ This is one of the most common passwords — avoid it!"
+  regardless of what the strength score says.
+
+
+────────────────────────────────────────────────────────────────────────────────
+SESSION 6 — To-Do List
+Folder: project6 - To-Do List
+Difficulty: ★★★★☆  (Intermediate–Advanced)
+────────────────────────────────────────────────────────────────────────────────
+
+  A fully functional personal task manager where users can add, complete,
+  and delete tasks. Tasks can be filtered by status — All, Active, or
+  Completed — and a counter shows how many items are still pending. All
+  tasks are saved to the browser's localStorage, so the list is preserved
+  even after closing or refreshing the page.
+
+WHAT IT DOES
+  A fully functional task manager. Users can type a task and add it by
+  clicking the Add button or pressing Enter. Each task can be marked as
+  complete (strikethrough + checkbox), deleted with a hover-reveal × button,
+  or filtered by status (All / Active / Completed). A task counter shows how
+  many items remain. All tasks are saved to localStorage so they survive a
+  page refresh.
+
+TECH STACK
+  - HTML5 — text input, dynamic list rendering
+  - Tailwind CSS — clean white/blue card design
+  - Vanilla JavaScript — arrays, localStorage, JSON, innerHTML rendering,
+                         event delegation, filter/map array methods
+
+WHAT STUDENTS LEARN
+  - Storing and retrieving data with localStorage and JSON.parse/stringify
+  - Managing an array of objects as the "source of truth" for UI
+  - Re-rendering the entire list from state on every change (simple approach)
+  - Using Date.now() as a unique ID for each task
+  - Array methods: .push(), .filter(), .find(), .map(), .join()
+  - Conditional class names (strikethrough on completed tasks)
+  - The Enter key shortcut (onkeydown + event.key)
+  - Using min-w-0 on flex children to prevent input overflow on mobile
+
+EXERCISE — Additional Feature
+  Add drag-and-drop reordering. Allow users to drag tasks up and down
+  the list to reprioritise them. Use the HTML Drag and Drop API:
+  set draggable="true" on each list item, listen for dragstart,
+  dragover, and drop events, and swap the positions of tasks in the
+  array. Save the new order to localStorage after every drop.
+
+
+────────────────────────────────────────────────────────────────────────────────
+SESSION 7 — Quiz App
+Folder: project7 - Quiz App
+Difficulty: ★★★★☆  (Advanced)
+────────────────────────────────────────────────────────────────────────────────
+
+  A multiple-choice knowledge quiz spanning three distinct screens: a start
+  screen, a question screen, and a results screen. The player works through
+  8 questions on tech, science, and general knowledge, with correct answers
+  highlighted green and wrong answers red after each selection. A progress
+  bar fills across questions, and the final screen delivers a personalised
+  score message based on performance.
+
+WHAT IT DOES
+  A multi-screen knowledge quiz with 8 questions on tech, science, and
+  general knowledge. The app has three screens: a Start screen, a Question
+  screen, and a Results screen. Each question has four multiple-choice
+  options. After the player answers, correct answers turn green and wrong
+  answers turn red. A progress bar fills as questions advance. The final
+  screen shows the score, correct/wrong counts, and a personalised message.
+
+TECH STACK
+  - HTML5 — multi-section layout, dynamic option buttons
+  - Tailwind CSS — violet/purple gradient, glass-effect cards
+  - Vanilla JavaScript — arrays of objects, multi-screen state, dynamic
+                         HTML generation with template literals
+
+WHAT STUDENTS LEARN
+  - Structuring data as an array of objects (question bank)
+  - Multi-screen apps: showing/hiding sections with classList
+  - Managing multiple state variables (currentQuestion, score, answered)
+  - Generating dynamic HTML with template literals and .map().join()
+  - Preventing double answers with a boolean guard (if answered return)
+  - Calculating and displaying percentages
+  - Mapping a score range to different messages/emojis with if/else
+  - The concept of "separation of data and presentation"
+
+EXERCISE — Additional Feature
+  Add a countdown timer for each question. Give the player 15 seconds
+  to answer. Use setInterval to decrement a counter and update a
+  visible timer display each second. If time runs out before the player
+  answers, automatically reveal the correct answer and move on after
+  2 seconds. Clear the interval with clearInterval whenever the player
+  answers or the question changes to avoid memory leaks.
+
+
+────────────────────────────────────────────────────────────────────────────────
+SESSION 8 — QR Code Generator
+Folder: project8 - QR Code Generator
+Difficulty: ★★★★★  (Advanced)
+────────────────────────────────────────────────────────────────────────────────
+
+  A tool that converts any text or URL into a scannable QR code instantly
+  in the browser. The user types their input, selects a size, and clicks
+  Generate — the QR code is drawn on an HTML canvas using the qrcode.js
+  library loaded from a CDN. A Download button then saves the result as a
+  PNG image to the user's device, with no server or backend required.
+
+WHAT IT DOES
+  The user enters any text or URL and chooses a size (Small / Medium /
+  Large). Clicking Generate produces a QR code rendered on an HTML canvas
+  using the qrcode.js library loaded from a CDN. A Download button converts
+  the canvas to a PNG image and triggers a file download — no server needed.
+
+TECH STACK
+  - HTML5 — textarea, select, canvas (via library)
+  - Tailwind CSS — teal/cyan gradient, clean white card
+  - qrcode.js (CDN) — third-party library for QR code generation
+  - Vanilla JavaScript — library instantiation, canvas API,
+                         dynamic link creation for file download
+
+WHAT STUDENTS LEARN
+  - How to load and use a third-party JavaScript library via CDN
+  - The concept of a library constructor: new QRCode(element, options)
+  - Error correction levels and why QR codes can still scan when damaged
+  - The HTML5 Canvas element and what it is used for
+  - Converting a canvas to a data URL with canvas.toDataURL()
+  - Programmatically triggering a file download with a temporary <a> element
+  - Clearing previous output before generating new content (innerHTML = '')
+  - Graceful fallback: handling both <canvas> and <img> output from the lib
+
+EXERCISE — Additional Feature
+  Add a colour picker for the QR code. Add two <input type="color"> fields
+  letting the user choose the dark module colour and the light background
+  colour. Pass the chosen values to the QRCode constructor's colorDark and
+  colorLight options. Add a live preview that regenerates the QR code
+  automatically whenever either colour changes (use the oninput event).
+
+
+================================================================================
+  SUMMARY TABLE
+================================================================================
+
+  #  | Project                   | Difficulty     | Key JS Concept
+  ---|---------------------------|----------------|-------------------------------
+  1  | Digital Clock             | ★☆☆☆☆ Easy    | setInterval, Date object
+  2  | Age Calculator            | ★★☆☆☆ Easy    | Date arithmetic, validation
+  3  | Rock Paper Scissors       | ★★☆☆☆ Easy    | Math.random, game logic
+  4  | Password Generator        | ★★★☆☆ Medium  | Loops, string pools, clipboard
+  5  | Password Strength Detector| ★★★☆☆ Medium  | Regex, live events
+  6  | To-Do List                | ★★★★☆ Hard    | Arrays, localStorage, CRUD
+  7  | Quiz App                  | ★★★★☆ Hard    | Multi-screen state, objects
+  8  | QR Code Generator         | ★★★★★ Expert  | External library, canvas, download
+
+================================================================================
+  END OF REPORT
+================================================================================

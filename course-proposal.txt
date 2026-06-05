@@ -1,0 +1,103 @@
+================================================================================
+  TUMO WORKSHOP — COURSE PROPOSAL
+  Web Development with JavaScript | 8 Sessions × 2 Hours | Ages 12–18
+================================================================================
+
+
+────────────────────────────────────────────────────────────────────────────────
+1. THE WORKSHOP IDEA
+────────────────────────────────────────────────────────────────────────────────
+
+An 8-session hands-on coding workshop where students aged 12–18 build one
+complete mini web app per session. Starting from a live digital clock and
+ending at a QR code generator, each project introduces a new layer of
+JavaScript — the progression is deliberately designed so every session's
+concept builds on the previous one.
+
+The emphasis is on making things that work, not on theory: students spend
+the full two hours writing code, seeing immediate visual results, and
+experimenting. Tailwind CSS handles all styling via a CDN link so no time
+is lost on design setup and students stay focused on logic.
+
+
+────────────────────────────────────────────────────────────────────────────────
+2. NEW SKILLS STUDENTS WILL DEVELOP
+────────────────────────────────────────────────────────────────────────────────
+
+  - Manipulating the DOM — reading from and writing to HTML elements
+    with JavaScript
+
+  - Responding to user events — clicks, keypresses, and live input
+
+  - Working with time — the Date object, setInterval, and date arithmetic
+
+  - Data structures — storing and managing information in arrays and objects
+
+  - Persistence — saving and loading data with localStorage so apps
+    remember state across page refreshes
+
+  - Pattern matching — an introduction to Regular Expressions for
+    string analysis
+
+  - Using external libraries — loading a third-party script from a CDN
+    and calling its API
+
+  - Responsive design thinking — making layouts that work on both mobile
+    and desktop screens
+
+
+────────────────────────────────────────────────────────────────────────────────
+3. SOFTWARE, HARDWARE, AND MATERIALS REQUIRED
+────────────────────────────────────────────────────────────────────────────────
+
+  Computer          Any laptop or desktop (Windows, macOS, or Linux)
+
+  Browser           Google Chrome or Firefox (latest version)
+                    — no installation needed beyond the browser itself
+
+  Code Editor       VS Code (free) — or any text editor as a fallback
+
+  Internet          Required — projects load Tailwind CSS, Google Fonts,
+                    and qrcode.js from CDNs during the session
+
+  Node / npm        Not required — everything runs directly in the browser
+
+  Accounts          None required
+
+  Printed Materials Optional: a one-page cheat sheet per session listing
+                    the key JavaScript concepts and methods introduced
+
+  No paid software, accounts, or special hardware are needed.
+  A smartphone is useful for testing responsive/mobile layouts but is
+  not mandatory.
+
+
+────────────────────────────────────────────────────────────────────────────────
+4. FINAL OUTCOME / DELIVERABLE
+────────────────────────────────────────────────────────────────────────────────
+
+Each student leaves with a personal portfolio folder of 8 fully working
+web apps — one per session — that they wrote themselves from scratch.
+Every project is a single self-contained index.html file that opens
+directly in a browser with no setup required.
+
+By the final session students will have built:
+
+  1. A live digital clock
+  2. An age calculator
+  3. A Rock Paper Scissors game
+  4. A password generator
+  5. A password strength detector
+  6. A to-do list app
+  7. A multiple-choice quiz
+  8. A QR code generator
+
+Reference Example
+  The completed projects in this repository serve as the reference.
+  Each index.html can be opened directly in a browser. For the instructor,
+  the Streamlit app (app.py) displays all eight projects in one page for
+  a side-by-side demo during the final session showcase.
+
+================================================================================
+  END OF PROPOSAL
+================================================================================
